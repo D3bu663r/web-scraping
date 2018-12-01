@@ -1,0 +1,24 @@
+{
+  "name": "web-scraping",
+  "version": "1.0.0",
+  "description": "Extração de dados de sites de E-commerce",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RafaelSSouzaADS/web-scraping.git"
+  },
+  "keywords": [
+    "NodeJs",
+    "WebScraping"
+  ],
+  "author": "Rafael Silva de Souza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RafaelSSouzaADS/web-scraping/issues"
+  },
+  "homepage": "https://github.com/RafaelSSouzaADS/web-scraping#readme"
+}
