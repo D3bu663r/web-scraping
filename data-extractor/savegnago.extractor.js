@@ -1,3 +1,5 @@
+const isVisible = require('../utils/util');
+
 async function extractProducts(browser) {
     let url = 'https://www.savegnago.com.br';
 
@@ -24,6 +26,16 @@ async function extractProducts(browser) {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         await page.goto(`${url}/${department}`);
+
+        while (await isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
+            await page.evaluate(() => {
+                document.querySelector('div.avantiSearch-load-more.btn.btn-primary').scrollIntoView();
+            });
+            await page.click('div.avantiSearch-load-more.btn.btn-primary');
+            await page.waitFor(1000);
+        }
+
+        await page.waitFor(1000);
 
         console.log(`extracting products from the ${department} department`);
 
