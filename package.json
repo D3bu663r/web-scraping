@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/RafaelSSouzaADS/web-scraping/issues"
   },
-  "homepage": "https://github.com/RafaelSSouzaADS/web-scraping#readme"
+  "homepage": "https://github.com/RafaelSSouzaADS/web-scraping#readme",
+  "dependencies": {
+    "puppeteer": "^1.11.0"
+  }
 }
