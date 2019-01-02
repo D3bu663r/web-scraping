@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const app = require('express')();
 const fs = require('fs');
 const extractProductsFromSavegnago = require('./data-extractor/savegnago.extractor');
 
@@ -13,3 +14,8 @@ const extractProductsFromSavegnago = require('./data-extractor/savegnago.extract
     await browser.close();
 })();
 
+app.use((req, res, next) => {
+    res.send('Web Crawler');
+});
+
+app.listen(process.env.PORT || 8080);
