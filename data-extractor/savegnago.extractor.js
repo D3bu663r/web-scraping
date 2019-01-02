@@ -22,8 +22,8 @@ async function extractProducts(browser) {
     console.info('initiating extraction of the savegnago products\n');
 
     for (var department of departments) {
+        const page = await browser.newPage();
         try {
-            const page = await browser.newPage();
             await page.goto(`${url}/${department}`, { waitUntil: 'networkidle0', timeout: 120000 });
 
             console.info(`${department} department page loaded\n`);
@@ -64,6 +64,7 @@ async function extractProducts(browser) {
             products = products.concat(data);
         } catch (error) {
             console.error(`Error loading page from department ${department}\n`);
+            await page.close();
             continue;
         }
     }
