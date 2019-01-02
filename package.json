@@ -1,8 +1,5 @@
 {
   "name": "web-scraping",
-  "engines": {
-    "node": "8.10.0"
-  },
   "version": "1.0.0",
   "description": "Extração de dados de sites de E-commerce",
   "main": "app.js",
@@ -25,7 +22,6 @@
   },
   "homepage": "https://github.com/RafaelSSouzaADS/web-scraping#readme",
   "dependencies": {
-    "express": "^4.16.4",
     "puppeteer": "^1.11.0"
   }
 }
