@@ -8,4 +8,13 @@ async function isVisible(page, selector) {
     }, selector);
 }
 
-module.exports = isVisible
+async function scrollInto(page, selector) {
+    return await page.evaluate((selector) => {
+        document.querySelector(selector).scrollIntoView();
+    }, selector);
+}
+
+module.exports = {
+    isVisible: isVisible,
+    scrollInto: scrollInto
+}

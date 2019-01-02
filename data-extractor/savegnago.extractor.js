@@ -1,69 +1,78 @@
-const isVisible = require('../utils/util');
+const util = require('../utils/util');
 
 async function extractProducts(browser) {
     let url = 'https://www.savegnago.com.br';
 
     let departments = [
-        'hortifruti',
-        'bebidas',
-        'limpeza',
-        'frios-laticinios-e-congelados',
-        'higiene-e-saude-e-beleza',
-        'pet-shop',
-        'carnes',
-        'mercearia',
-        'padaria',
-        'bazar-e-utilidades',
-        'flores-e-plantas',
-        'alimentos-saudaveis'
+        'hortifruti', //418 produtos
+        'bebidas', //612 produtos
+        'limpeza', //612 produtos
+        'frios-laticinios-e-congelados', //612 produtos
+        'higiene-e-saude-e-beleza', //612 produtos
+        'pet-shop', //248 produtos
+        'carnes', //224 produtos
+        'mercearia', //612 produtos
+        'padaria', //389 produtos
+        'bazar-e-utilidades', //612 produtos
+        'flores-e-plantas', //80 produtos
+        'alimentos-saudaveis' //237 produtos
     ];
 
     let products = [];
 
-    console.log('initiating extraction of the savegnago products\n');
+    console.info('initiating extraction of the savegnago products\n');
 
     for (var department of departments) {
-        const page = await browser.newPage();
-        await page.setViewport({ width: 1280, height: 800 });
-        await page.goto(`${url}/${department}`);
+        try {
+            const page = await browser.newPage();
+            await page.goto(`${url}/${department}`, { waitUntil: 'networkidle0', timeout: 60000 });
 
-        while (await isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
-            await page.evaluate(() => {
-                document.querySelector('div.avantiSearch-load-more.btn.btn-primary').scrollIntoView();
-            });
-            await page.click('div.avantiSearch-load-more.btn.btn-primary');
-            await page.waitFor(1000);
-        }
+            console.info(`${department} department page loaded\n`);
 
-        await page.waitFor(1000);
-
-        console.log(`extracting products from the ${department} department`);
-
-        let data = await page.evaluate((department) => {
-            let data = [];
-
-            document.querySelectorAll('div.shelf__product-item[data-product-id]').forEach((element) => {
-                let json = {};
+            let pageCount = 0;
+            while (await util.isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
                 try {
-                    json.domain = 'savegnago';
-                    json.id = element.getAttribute('data-product-id');
-                    json.department = department;
-                    json.imageUrl = element.querySelector('a.product-item__img').querySelector('img').src;
-                    json.name = element.querySelector('h3.product-item__title').innerText;
-                    json.price = element.querySelector('div.product-item__best-price').innerText;
+                    process.stdout.clearLine();
+                    process.stdout.cursorTo(0);
+                    process.stdout.write(`loading page ${++pageCount} of the department ${department}`);
+                    await page.click('div.avantiSearch-load-more.btn.btn-primary');
+                    await page.waitForFunction(selector => document.querySelector(selector) === null, {}, 'div.avantiSearch-load-more.btn.btn-primary.loading');
+                } catch (error) {
+                    break;
                 }
-                catch (exception) { }
-                data.push(json);
-            });
+            }
 
-            return data;
-        }, department);
+            console.info(`\nextracting products from the ${department} department`);
 
-        await page.close();
-        console.log(`extracted ${data.length} products of the department ${department}\n`);
-        products = products.concat(data);
+            let data = await page.evaluate(department => {
+                let data = [];
+
+                document.querySelectorAll('div.shelf__product-item[data-product-id]').forEach((element) => {
+                    let json = {};
+                    try {
+                        json.domain = 'savegnago';
+                        json.id = element.getAttribute('data-product-id');
+                        json.department = department;
+                        json.imageUrl = element.querySelector('a.product-item__img').querySelector('img').src;
+                        json.name = element.querySelector('h3.product-item__title').innerText;
+                        json.price = element.querySelector('div.product-item__best-price').innerText;
+                    }
+                    catch (exception) { }
+                    data.push(json);
+                });
+
+                return data;
+            }, department);
+
+            await page.close();
+            console.info(`extracted ${data.length} products of the department ${department}\n`);
+            products = products.concat(data);
+        } catch (error) {
+            console.error(`Error loading page from department ${department}\n`);
+            continue;
+        }
     }
-    console.log('finalized the extraction of the savegnago products\n');
+    console.info('finalized the extraction of the savegnago products\n');
 
     return products;
 };
