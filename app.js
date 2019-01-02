@@ -15,9 +15,9 @@ const extractProductsFromSavegnago = require('./data-extractor/savegnago.extract
 })();
 
 app.use((req, res, next) => {
-    fs.readFile('data.json', (err, data) => {
-        if (err) res.send(err);;
-        res.send(data);
+    fs.readFile('data.json', 'utf-8', (err, data) => {
+        if (err) res.json(err);
+        res.json(JSON.parse(data));
     });
 });
 
