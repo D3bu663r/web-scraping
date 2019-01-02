@@ -29,14 +29,8 @@ async function extractProducts(browser) {
 
             console.info(`${department} department page loaded\n`);
 
-            await page.waitFor(5000);
-
-            let pageCount = 0;
             while (await util.isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
                 try {
-                    process.stdout.clearLine();
-                    process.stdout.cursorTo(0);
-                    process.stdout.write(`loading page ${++pageCount} of the department ${department}`);
                     await page.click('div.avantiSearch-load-more.btn.btn-primary');
                     await page.waitForFunction(selector => document.querySelector(selector) === null, {}, 'div.avantiSearch-load-more.btn.btn-primary.loading');
                 } catch (error) {
