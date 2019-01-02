@@ -37,8 +37,6 @@ async function extractProducts(browser) {
                 }
             }
 
-
-
             console.info(`\nextracting products from the ${department} department`);
 
             let data = await page.evaluate(department => {
