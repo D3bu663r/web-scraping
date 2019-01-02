@@ -51,9 +51,9 @@ async function extractProducts(browser) {
                     let json = {};
                     try {
                         json.domain = 'savegnago';
-                        json.id = element.getAttribute('data-product-id');
+                        json.productId = element.getAttribute('data-product-id');
                         json.department = department;
-                        json.imageUrl = element.querySelector('a.product-item__img').querySelector('img').src;
+                        json.imageUrl = element.querySelector('a.product-item__img > img').src;
                         json.name = element.querySelector('h3.product-item__title').innerText;
                         json.price = element.querySelector('div.product-item__best-price').innerText;
                     }
