@@ -25,7 +25,7 @@ async function extractProducts(browser) {
     for (var department of departments) {
         try {
             const page = await browser.newPage();
-            await page.goto(`${url}/${department}`, { waitUntil: 'networkidle0', timeout: 60000 });
+            await page.goto(`${url}/${department}`, { waitUntil: 'networkidle0', timeout: 120000 });
 
             console.info(`${department} department page loaded\n`);
 
