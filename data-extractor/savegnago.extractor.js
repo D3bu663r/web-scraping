@@ -29,7 +29,7 @@ async function extractProducts(browser) {
 
             console.info(`${department} department page loaded\n`);
 
-            while (await util.isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
+            while (!!(await page.$('div.avantiSearch-load-more.btn.btn-primary')) /*await util.isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')*/) {
                 try {
                     await page.click('div.avantiSearch-load-more.btn.btn-primary');
                     await page.waitForFunction(selector => document.querySelector(selector) === null, {}, 'div.avantiSearch-load-more.btn.btn-primary.loading');
