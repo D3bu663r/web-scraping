@@ -29,6 +29,8 @@ async function extractProducts(browser) {
 
             console.info(`${department} department page loaded\n`);
 
+            await page.waitFor(5000);
+
             let pageCount = 0;
             while (await util.isVisible(page, 'div.avantiSearch-load-more.btn.btn-primary')) {
                 try {
