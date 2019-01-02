@@ -15,7 +15,10 @@ const extractProductsFromSavegnago = require('./data-extractor/savegnago.extract
 })();
 
 app.use((req, res, next) => {
-    res.send('Web Crawler');
+    fs.readFile('data.json', (err, data) => {
+        if (err) res.send(err);;
+        res.send(data);
+    });
 });
 
 app.listen(process.env.PORT || 8080);
