@@ -9,7 +9,7 @@ async function extractProducts(browser) {
         'frios-laticinios-e-congelados', //612 produtos
         'higiene-e-saude-e-beleza', //612 produtos
         'pet-shop', //248 produtos
-        'carnes', //224 produtos
+        'carnes', //226 produtos
         'mercearia', //612 produtos
         'padaria', //389 produtos
         'bazar-e-utilidades', //612 produtos
