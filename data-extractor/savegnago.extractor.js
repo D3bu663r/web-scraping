@@ -26,7 +26,7 @@ async function extractProducts(browser) {
         try {
             await page.goto(`${url}/${department}`, { waitUntil: 'networkidle0', timeout: 120000 });
 
-            console.info(`${department} department page loaded\n`);
+            console.info(`${department} department page loaded`);
 
             while (await page.$('div.avantiSearch-load-more.btn.btn-primary') !== null) {
                 try {
