@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/RafaelSSouzaADS/web-scraping#readme",
   "dependencies": {
-    "express": "^4.16.4",
     "puppeteer": "^1.11.0"
   }
 }
